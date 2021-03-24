@@ -1,0 +1,135 @@
+/**
+ * this is the main configuration file of your bit workspace.
+ * for full documentation, please see: https://docs.bit.dev/configuration
+ **/{
+  "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
+  /**
+   * main configuration of the Bit workspace.
+   **/
+  "teambit.workspace/workspace": {
+    /**
+     * the name of the component workspace. used for development purposes.
+     **/
+    "name": "Scopes team workspace",
+    /**
+     * set the icon to be shown on the Bit server.
+     **/
+    "icon": "https://static.bit.dev/bit-logo.svg",
+    /**
+     * default scope for all components in workspace.
+     **/
+    "defaultScope": "deepblue.scopes"
+  },
+  /**
+   * configure the env to use localhost on the development workspace.
+   **/
+  // "harmony-mfe.scopes/envs/mfe-react": {
+  //   "symphonyGatewayUrl": "localhost:5000"
+  // },
+  /**
+   * main configuration for component dependency resolution.
+   **/
+  "teambit.dependencies/dependency-resolver": {
+    /**
+     * choose the package manager for Bit to use. you can choose between 'yarn', 'pnpm'
+     */
+    "packageManager": "teambit.dependencies/yarn",
+    "policy": {
+      "dependencies": {
+        "@teambit/base-ui.elements.label": "0.6.3",
+        "@teambit/base-ui.hooks.use-graphql-light": "0.0.4",
+        "@teambit/base-ui.input.error": "0.6.3",
+        "@teambit/base-ui.loaders.loader-ribbon": "0.6.3",
+        "@teambit/base-ui.surfaces.card": "0.6.3",
+        "@teambit/base-ui.text.heading": "0.6.3",
+        "@teambit/base-ui.text.muted-text": "0.6.3",
+        "@teambit/base-ui.text.paragraph": "0.6.3",
+        "@teambit/base-ui.theme.fonts.roboto": "0.6.3",
+        "@teambit/base-ui.theme.theme-provider": "0.6.3",
+        "@teambit/scopes.scope-descriptor": "0.0.5",
+        "@testing-library/react": "^10.4.7",
+        "@types/classnames": "2.2.11",
+        "@types/jest": "26.0.20",
+        "@types/react": "16.9.43",
+        "@types/react-dom": "16.9.10",
+        "classnames": "2.2.6",
+        "graphql-request": "3.4.0",
+        "graphql-tag": "2.11.0",
+        "jest": "26.6.3",
+        "reset-css": "5.0.1"
+      },
+      "peerDependencies": {
+        "graphql": "^14.3.1",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
+      }
+    },
+    "packageManagerArgs": [],
+    "devFilePatterns": [
+      "**/*.spec.ts"
+    ],
+    "strictPeerDependencies": true
+  },
+  /**
+   * workspace variants allow to set different subsets of configuration for components in your workspace.
+   * this is extremely useful for upgrading, aligning and building components with a
+   * new set of dependencies.
+   **/
+  "teambit.workspace/variants": {
+    /**
+     * configure all components namespaced with "envs" with the teambit
+     * official Extension environment.
+     **/
+    "{envs/*}": {
+      "propagate": false,
+      "teambit.harmony/aspect": {}
+    },
+    "{ui/hooks/*}": {
+      "propagate": false,
+      "teambit.dependencies/dependency-resolver": {
+        "policy": {
+          "peerDependencies": {
+            "graphql": "^14.3.1"
+          }
+        }
+      },
+      "deepblue.scopes/envs/mfe-react": {}
+    },
+    "{ui/pages/*}": {
+      "propagate": false,
+      "teambit.dependencies/dependency-resolver": {
+        "policy": {
+          "peerDependencies": {
+            "graphql": "^14.3.1"
+          }
+        }
+      },
+      "deepblue.scopes/envs/mfe-react": {}
+    },
+    /**
+     * configure all components namespaced with "ui" with the custom mfe-react extension
+     * which exists on this workspace.
+     **/
+    "{ui/*}": {
+      "propagate": false,
+      "deepblue.scopes/envs/mfe-react": {}
+    },
+    "{ui/graphql-context}": {
+      "propagate": false,
+      "teambit.react/react": {}
+    },
+    /**
+     * configure directories in the workspace root directory to different remote scopes.
+     **/
+    "scopes": {
+      "defaultScope": "deepblue.scopes"
+    },
+    "toolbox": {
+      "defaultScope": "deepblue.toolbox"
+    },
+    "design": {
+      "defaultScope": "deepblue.design",
+      "teambit.react/react": {}
+    }
+  }
+}
